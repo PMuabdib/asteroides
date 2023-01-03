@@ -1,16 +1,31 @@
-# This is a sample Python script.
+import pygame, sys
+from pygame.locals import *
 
-# Press Mayús+F10 to execute it or replace it with your code.
-# Press Double Shift to search everywhere for classes, files, tool windows, actions, and settings.
+# DEFINICIÓN DE VALRIABLES Y CONSTANTES
+#######################################
+ALTO_VENTANA = 800 # Alto de la ventana donde cargaremos el juego
+ANCHO_VENTANA = 400 # Ancho de la ventana donde cargaremos el juego
+
+# FUNCIÓN PRINCIPAL
+###################
+def meteoritos():
+    pygame.init()
+    # Cargamos la ventana
+    ventana = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
+    # Cargamos el fondo
+    fondo = pygame.image.load("imagenes/FondoAsteroides.png")
+    ventana.blit(fondo,(0,0))
+    # Titulo
+    pygame.display.set_caption('Asteroides')
+    # Ciclo del juego
+    while True:
+        for evento in pygame.event.get():
+            if evento.type == QUIT:
+                pygame.quit()
+                sys.exit()
+        pygame.display.update()
 
 
-def print_hi(name):
-    # Use a breakpoint in the code line below to debug your script.
-    print(f'Hi, {name}')  # Press Ctrl+F8 to toggle the breakpoint.
 
-
-# Press the green button in the gutter to run the script.
 if __name__ == '__main__':
-    print_hi('PyCharm')
-
-# See PyCharm help at https://www.jetbrains.com/help/pycharm/
+    meteoritos()
