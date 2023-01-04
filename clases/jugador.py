@@ -1,4 +1,5 @@
 import pygame
+from clases import disparo
 
 class Nave(pygame.sprite.Sprite):
     def __init__(self):
@@ -18,7 +19,9 @@ class Nave(pygame.sprite.Sprite):
                 self.rect.left = 0
             elif self.rect.right > 364:
                 self.rect.right = 364
-    def disparar(self):
+    def disparar(self, x, y):
         print('Disparando...')
+        misil = disparo.Misil(x, y)
+        self.listaDisparo.append(misil)
     def dibujar(self, superficie):
         superficie.blit(self.imagenNave, self.rect)
