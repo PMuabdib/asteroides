@@ -20,7 +20,6 @@ class Nave(pygame.sprite.Sprite):
             elif self.rect.right > 364:
                 self.rect.right = 364
     def disparar(self, x, y):
-        print('Disparando...')
         misil = disparo.Misil(x, y)
         self.listaDisparo.append(misil)
     def dibujar(self, superficie):
