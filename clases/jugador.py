@@ -11,7 +11,7 @@ class Nave(pygame.sprite.Sprite):
         self.rect.centerx = 200
         self.rect.centery = 750
         # Otros atributos
-        self.velocidad = 10
+        self.velocidad = 20
         self.vida = True
         self.listaDisparo = []
         self. sonidoDisparo = pygame.mixer.Sound("sonidos/458669.ogg")
