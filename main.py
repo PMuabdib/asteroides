@@ -16,8 +16,8 @@ jugando = True                                                  # Bandera que no
 
 # FUNCIÓN DE CARGA DE ASTEROIDES
 ################################
-def cargarAsteroides(x, y):
-    meteoro = asteroide.Asteroide(x, y)
+def cargarAsteroides(x, y, velocidad):
+    meteoro = asteroide.Asteroide(x, y, velocidad)
     listaAsteroides.append(meteoro)
 
 # FUNCIÓN FIN DE JUEGO
@@ -33,8 +33,9 @@ def gameOver():
 def meteoritos():
     # INICIALIZAMOS VARIABLES Y CONFIGURACIONES
     pygame.init()
+    numAsteroides = 0
+    velocidadAsteroides = 5
     ventana = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))                        # Cargamos la ventana
-    # fondo = pygame.image.load("imagenes/FondoAsteroides.png")                               # Cargamos el fondo
     pygame.display.set_caption('Asteroides')                                                # Titulo
     sonidoColision =  pygame.mixer.Sound("sonidos/394128.wav")                              # Sonido Colisión nave
     sonidoDestruccion = pygame.mixer.Sound("sonidos/472061.wav")                            # Sonido destruccion asteroide
@@ -60,7 +61,12 @@ def meteoritos():
             contador = tiempo
             posX = randint(10, 380)
             posY = -20
-            cargarAsteroides(posX, posY)
+            cargarAsteroides(posX, posY, velocidadAsteroides)
+            numAsteroides += 1
+            if numAsteroides == 10:
+                velocidadAsteroides += 1
+                numAsteroides = 0
+
         # COMPROBAMOS LA LISTA DE ASTEROIDES
         if len(listaAsteroides)>0:
             for asteroide in listaAsteroides:
