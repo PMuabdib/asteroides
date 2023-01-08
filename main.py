@@ -63,7 +63,7 @@ def meteoritos():
             cargarAsteroides(posX, posY)
         # COMPROBAMOS LA LISTA DE ASTEROIDES
         if len(listaAsteroides)>0:
-            for asteroide in listaAsteroides:                                               #
+            for asteroide in listaAsteroides:
                 asteroide.dibujar(ventana)
                 asteroide.recorrido()
                 if asteroide.rect.top > 800:
@@ -106,22 +106,22 @@ def meteoritos():
                 else:
                     if evento.key == K_F1:
                         jugando = True
+                        puntos = 0
                         meteoritos()
                     elif evento.key == K_F2:
                         pygame.quit()
                         sys.exit()
 
-
         # FIN DE LA PARTIDA
         if jugando == False:
             textoGameOver = fuenteGameOver.render("Game Over", 0, colorFuente)
             ventana.blit(textoGameOver, (100, 300))
-            textoSeguir = fuenteSeguir.render("F1 para continuar, F2 para salir", 0, colorFuente)
-            ventana.blit(textoSeguir, (95, 350))
+            textoSeguir = fuenteSeguir.render("F1 para nueva partida, F2 para salir", 0, colorFuente)
+            ventana.blit(textoSeguir, (75, 350))
             pygame.mixer.music.fadeout(3000)
         pygame.display.update()
 
-
-
+# MAIN - LANZADOR
+###################
 if __name__ == '__main__':
     meteoritos()
