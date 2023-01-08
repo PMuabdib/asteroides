@@ -4,6 +4,7 @@ from random import randint
 from time import time
 from clases import jugador
 from clases import asteroide
+from clases import fondo
 # DEFINICIÓN DE VALRIABLES Y CONSTANTES
 #######################################
 ALTO_VENTANA = 800                                              # Alto de la ventana donde cargaremos el juego
@@ -33,21 +34,20 @@ def meteoritos():
     # INICIALIZAMOS VARIABLES Y CONFIGURACIONES
     pygame.init()
     ventana = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))                        # Cargamos la ventana
-    fondo = pygame.image.load("imagenes/FondoAsteroides.png")                               # Cargamos el fondo
+    # fondo = pygame.image.load("imagenes/FondoAsteroides.png")                               # Cargamos el fondo
     pygame.display.set_caption('Asteroides')                                                # Titulo
     sonidoColision =  pygame.mixer.Sound("sonidos/394128.wav")                              # Sonido Colisión nave
     sonidoDestruccion = pygame.mixer.Sound("sonidos/472061.wav")                            # Sonido destruccion asteroide
     fuenteMarcador = pygame.font.SysFont("Arial", 20)                                       # Fuente para el marcador
     fuenteGameOver = pygame.font.SysFont("Arial", 40)                                       # Fuente para el GameOver
     fuenteSeguir = pygame.font.SysFont("Arial", 15)                                         # Fuente para el GameOver
+    fondoJuego = fondo.Fondo()                                                              # Creamos el objeto fondo
     nave = jugador.Nave()                                                                   # Creamos objeto jugador
     contador = 0                                                                            # Variable contador de tiempo
-    # CARGARMOS LA MUSICA DEL JUEGO
-    pygame.mixer.music.load("sonidos/388880.wav")                                           # Música de fondo
-    pygame.mixer.music.play(-1)                                                             # Reproducir en bucle infinito '-1'
+    fondoJuego.musica()                                                                     # Música de fondo
     # CICLO DEL JUEGO
     while True:
-        ventana.blit(fondo, (0, 0))                                                         # Dibujamos fondo
+        fondoJuego.cargar(ventana)                                                          # Dibujamos fondo
         nave.dibujar(ventana)                                                               # Dibujamos nave
         global puntos                                                                       # Globalizamos Marcador
         global jugando

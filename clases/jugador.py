@@ -4,9 +4,9 @@ from clases import disparo
 class Nave(pygame.sprite.Sprite):
     def __init__(self):
         pygame.sprite.Sprite.__init__(self)
-        self.imagenNave = pygame.image.load("imagenes/Nave.png") # Cargamos la imagen
-        self.imagenExplota = pygame.image.load("imagenes/explosion.png")
-        self.rect = self.imagenNave.get_rect() # Calculamos el rectángulo de la imagen
+        self.imagenNave = pygame.image.load("imagenes/Nave.png")                    # Cargamos la imagen de la nave
+        self.imagenExplota = pygame.image.load("imagenes/explosion.png")            # Cargamso la imagen de la explosión
+        self.rect = self.imagenNave.get_rect()                                      # Calculamos el rectángulo de la imagen
         # Posición inicial de la nave
         self.rect.centerx = 200
         self.rect.centery = 750
@@ -19,8 +19,8 @@ class Nave(pygame.sprite.Sprite):
         if self.vida == True:
             if self.rect.left <= 0:
                 self.rect.left = 0
-            elif self.rect.right > 364:
-                self.rect.right = 364
+            elif self.rect.right > 384:
+                self.rect.right = 384
     def disparar(self, x, y):
         if self.vida == True:
             misil = disparo.Misil(x, y)
