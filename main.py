@@ -4,20 +4,14 @@ from random import randint
 from time import time
 from clases import jugador
 from clases import asteroide
-
 # DEFINICIÓN DE VALRIABLES Y CONSTANTES
 #######################################
-ALTO_VENTANA = 800 # Alto de la ventana donde cargaremos el juego
-ANCHO_VENTANA = 400 # Ancho de la ventana donde cargaremos el juego
-colorFuente = (255,255,255) # Color para la fuente del marcador
-
-listaAsteroides = []
-
-puntos = 0 # Variable para la puntuación del juego
-
-
-jugando = True
-
+ALTO_VENTANA = 800                                              # Alto de la ventana donde cargaremos el juego
+ANCHO_VENTANA = 400                                             # Ancho de la ventana donde cargaremos el juego
+colorFuente = (255,255,255)                                     # Color para la fuente del marcador
+listaAsteroides = []                                            # Lista de los asteroides que están activos
+puntos = 0                                                      # Variable para la puntuación del juego
+jugando = True                                                  # Bandera que nos permite saber si el juego a acabado
 
 # FUNCIÓN DE CARGA DE ASTEROIDES
 ################################
@@ -25,57 +19,49 @@ def cargarAsteroides(x, y):
     meteoro = asteroide.Asteroide(x, y)
     listaAsteroides.append(meteoro)
 
-
-# FUNCIÓN PRINCIPAL
-###################
+# FUNCIÓN FIN DE JUEGO
+######################
 def gameOver():
     global jugando
     jugando = False
     for asteroide in listaAsteroides:
         listaAsteroides.remove(asteroide)
 
-
+# FUNCIÓN PRINCIPAL
+###################
 def meteoritos():
+    # INICIALIZAMOS VARIABLES Y CONFIGURACIONES
     pygame.init()
-    # Cargamos la ventana
-    ventana = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))
-    # Cargamos el fondo
-    fondo = pygame.image.load("imagenes/FondoAsteroides.png")
-    # Titulo
-    pygame.display.set_caption('Asteroides')
-    # Música de fondo
-    pygame.mixer.music.load("sonidos/388880.wav")
-    pygame.mixer.music.play(-1) # Reproducir en bucle infinito '-1'
-    # Sonido Colisión
-    sonidoColision =  pygame.mixer.Sound("sonidos/394128.wav")
-    # Sonido destruccion asteroide
-    sonidoDestruccion = pygame.mixer.Sound("sonidos/472061.wav")
-    # Fuente para el marcador
-    fuenteMarcador = pygame.font.SysFont("Arial", 20)
-    fuenteGameOver = pygame.font.SysFont("Arial", 40)
-    # Creamos objeto jugador
-    nave = jugador.Nave()
-    # Variable contador de tiempo
-    contador = 0
-
-    # Ciclo del juego
+    ventana = pygame.display.set_mode((ANCHO_VENTANA, ALTO_VENTANA))                        # Cargamos la ventana
+    fondo = pygame.image.load("imagenes/FondoAsteroides.png")                               # Cargamos el fondo
+    pygame.display.set_caption('Asteroides')                                                # Titulo
+    sonidoColision =  pygame.mixer.Sound("sonidos/394128.wav")                              # Sonido Colisión nave
+    sonidoDestruccion = pygame.mixer.Sound("sonidos/472061.wav")                            # Sonido destruccion asteroide
+    fuenteMarcador = pygame.font.SysFont("Arial", 20)                                       # Fuente para el marcador
+    fuenteGameOver = pygame.font.SysFont("Arial", 40)                                       # Fuente para el GameOver
+    nave = jugador.Nave()                                                                   # Creamos objeto jugador
+    contador = 0                                                                            # Variable contador de tiempo
+    # CARGARMOS LA MUSICA DEL JUEGO
+    pygame.mixer.music.load("sonidos/388880.wav")                                           # Música de fondo
+    pygame.mixer.music.play(-1)                                                             # Reproducir en bucle infinito '-1'
+    # CICLO DEL JUEGO
     while True:
-        ventana.blit(fondo, (0, 0)) # Dibujamos fondo
-        nave.dibujar(ventana)  # Dibujamos nave
-        # Marcador
-        global puntos
+        ventana.blit(fondo, (0, 0))                                                         # Dibujamos fondo
+        nave.dibujar(ventana)                                                               # Dibujamos nave
+        global puntos                                                                       # Globalizamos Marcador
+        # MOSTRAMOS EL MARCADOR
         textoMarcador = fuenteMarcador.render(f'Puntos: {str(puntos)}',0,colorFuente)
         ventana.blit(textoMarcador, (5,5))
-        # Dibujamos Meteoritos cada cierto tiempo
+        # CREAMOS NUEVO METEORITOS CADA CIERTO TIEMPO
         tiempo = time()
         if (tiempo - contador > 1) and (nave.vida == True):
             contador = tiempo
             posX = randint(10, 380)
             posY = -20
             cargarAsteroides(posX, posY)
-        # Comprobamos lista Asteroides
+        # COMPROBAMOS LA LISTA DE ASTEROIDES
         if len(listaAsteroides)>0:
-            for asteroide in listaAsteroides:
+            for asteroide in listaAsteroides:                                               #
                 asteroide.dibujar(ventana)
                 asteroide.recorrido()
                 if asteroide.rect.top > 800:
@@ -86,8 +72,7 @@ def meteoritos():
                         sonidoColision.play()
                         nave.vida = False
                         gameOver()
-
-        # Disparos/proyectiles
+        # COMPROBAMOS DISPAROS/PROYECTILES
         if len(nave.listaDisparo) > 0:
             for disparo in nave.listaDisparo:
                 disparo.dibujar(ventana)
@@ -102,6 +87,7 @@ def meteoritos():
                             sonidoDestruccion.play()
                             puntos += 1
         nave.mover()
+        # COMPROBACIÓN DE LOS EVENTOS (Teclado, raton,..)
         for evento in pygame.event.get():
             if evento.type == QUIT:
                 pygame.quit()
@@ -115,6 +101,7 @@ def meteoritos():
                     elif evento.key == K_SPACE:
                         x, y = nave.rect.center
                         nave.disparar(x, y)
+        # FIN DE LA PARTIDA
         if jugando == False:
             textoGameOver = fuenteGameOver.render("Game Over", 0, colorFuente)
             ventana.blit(textoGameOver, (100, 300))

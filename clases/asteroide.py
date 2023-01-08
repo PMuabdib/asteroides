@@ -8,7 +8,7 @@ class Asteroide (pygame.sprite.Sprite):
         self.velocidad = 10
         self.rect.top = posY
         self.rect.left = posX
-        self.listaAsteroides = []
+
 
     def recorrido(self):
         self.rect.top += self.velocidad
