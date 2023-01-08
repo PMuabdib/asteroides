@@ -39,6 +39,7 @@ def meteoritos():
     sonidoDestruccion = pygame.mixer.Sound("sonidos/472061.wav")                            # Sonido destruccion asteroide
     fuenteMarcador = pygame.font.SysFont("Arial", 20)                                       # Fuente para el marcador
     fuenteGameOver = pygame.font.SysFont("Arial", 40)                                       # Fuente para el GameOver
+    fuenteSeguir = pygame.font.SysFont("Arial", 15)                                         # Fuente para el GameOver
     nave = jugador.Nave()                                                                   # Creamos objeto jugador
     contador = 0                                                                            # Variable contador de tiempo
     # CARGARMOS LA MUSICA DEL JUEGO
@@ -49,6 +50,7 @@ def meteoritos():
         ventana.blit(fondo, (0, 0))                                                         # Dibujamos fondo
         nave.dibujar(ventana)                                                               # Dibujamos nave
         global puntos                                                                       # Globalizamos Marcador
+        global jugando
         # MOSTRAMOS EL MARCADOR
         textoMarcador = fuenteMarcador.render(f'Puntos: {str(puntos)}',0,colorFuente)
         ventana.blit(textoMarcador, (5,5))
@@ -101,10 +103,21 @@ def meteoritos():
                     elif evento.key == K_SPACE:
                         x, y = nave.rect.center
                         nave.disparar(x, y)
+                else:
+                    if evento.key == K_F1:
+                        jugando = True
+                        meteoritos()
+                    elif evento.key == K_F2:
+                        pygame.quit()
+                        sys.exit()
+
+
         # FIN DE LA PARTIDA
         if jugando == False:
             textoGameOver = fuenteGameOver.render("Game Over", 0, colorFuente)
             ventana.blit(textoGameOver, (100, 300))
+            textoSeguir = fuenteSeguir.render("F1 para continuar, F2 para salir", 0, colorFuente)
+            ventana.blit(textoSeguir, (95, 350))
             pygame.mixer.music.fadeout(3000)
         pygame.display.update()
 
